@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Samuel Sousa — Cybersecurity</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* ========== TOKENS ========== */
+  :root {
+    --bg: #080b0f;
+    --bg2: #0e1318;
+    --bg3: #141a22;
+    --border: rgba(0,255,136,0.12);
+    --border2: rgba(0,255,136,0.25);
+    --green: #00ff88;
+    --green2: #00cc6a;
+    --green-dim: rgba(0,255,136,0.08);
+    --green-mid: rgba(0,255,136,0.15);
+    --text: #e8f0e9;
+    --muted: #7a9080;
+    --muted2: #a8b8ac;
+    --red: #ff4466;
+    --amber: #ffaa33;
+    --blue: #33aaff;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* Subtle grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,255,136,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,136,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ========== NAV ========== */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(8,11,15,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+  }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--green);
+    letter-spacing: 0.05em;
+  }
+
+  .nav-logo span { color: var(--muted); }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+  }
+
+  nav a {
+    color: var(--muted2);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  nav a:hover { color: var(--green); }
+
+  /* ========== SECTIONS ========== */
+  section {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 6rem 2rem 3rem;
+  }
+
+  /* ========== HERO ========== */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 80px;
+  }
+
+  .hero-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hero-label::before {
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 1px;
+    background: var(--green);
+  }
+
+  h1 {
+    font-family: var(--sans);
+    font-size: clamp(48px, 8vw, 88px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+
+  h1 .name { color: var(--text); }
+  h1 .alias {
+    color: var(--green);
+    display: block;
+    font-size: 0.55em;
+    font-weight: 400;
+    font-family: var(--mono);
+    letter-spacing: 0.1em;
+  }
+
+  .hero-desc {
+    max-width: 520px;
+    color: var(--muted2);
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .tag {
+    background: var(--green-dim);
+    border: 1px solid var(--border2);
+    color: var(--green);
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 2px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .hero-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 10px 20px;
+    border-radius: 2px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--green);
+    color: #000;
+    font-weight: 700;
+  }
+
+  .btn-primary:hover {
+    background: var(--green2);
+    transform: translateY(-1px);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--green);
+    border: 1px solid var(--border2);
+  }
+
+  .btn-ghost:hover {
+    background: var(--green-dim);
+    border-color: var(--green);
+  }
+
+  /* ========== STATUS BAR ========== */
+  .status-bar {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 2rem;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    background: var(--bg2);
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ========== SECTION HEADINGS ========== */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .section-num {
+    font-size: 11px;
+    color: var(--green);
+    letter-spacing: 0.1em;
+    font-weight: 500;
+  }
+
+  h2 {
+    font-family: var(--sans);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ========== ABOUT ========== */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .about-text {
+    color: var(--muted2);
+    line-height: 1.9;
+    font-size: 13px;
+    grid-column: 1 / -1;
+    margin-bottom: 0.5rem;
+  }
+
+  .info-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 1.25rem;
+    border-radius: 4px;
+  }
+
+  .info-card .label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.35rem;
+  }
+
+  .info-card .value {
+    color: var(--green);
+    font-size: 13px;
+  }
+
+  /* ========== SKILLS ========== */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+
+  .skill-category {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    border-radius: 4px;
+    transition: border-color 0.2s;
+  }
+
+  .skill-category:hover { border-color: var(--border2); }
+
+  .skill-cat-title {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .skill-cat-title::before {
+    content: '//';
+    color: var(--muted);
+  }
+
+  .skill-list { list-style: none; }
+
+  .skill-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+  }
+
+  .skill-item:last-child { border-bottom: none; }
+
+  .skill-name { color: var(--text); }
+
+  .skill-level {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 2px;
+  }
+
+  .level-basic {
+    background: rgba(255,170,51,0.12);
+    color: var(--amber);
+    border: 1px solid rgba(255,170,51,0.25);
+  }
+
+  .level-medium {
+    background: rgba(51,170,255,0.12);
+    color: var(--blue);
+    border: 1px solid rgba(51,170,255,0.25);
+  }
+
+  .level-advanced {
+    background: var(--green-dim);
+    color: var(--green);
+    border: 1px solid var(--border2);
+  }
+
+  /* Bar style for some skills */
+  .skill-bar-wrap {
+    margin-top: 0.25rem;
+  }
+
+  .skill-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 5px 0;
+    font-size: 12px;
+  }
+
+  .bar-label { min-width: 140px; color: var(--text); }
+
+  .bar-track {
+    flex: 1;
+    height: 3px;
+    background: var(--bg3);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    background: var(--green);
+    border-radius: 2px;
+    transition: width 1s ease;
+  }
+
+  .bar-pct {
+    font-size: 10px;
+    color: var(--muted);
+    min-width: 28px;
+    text-align: right;
+  }
+
+  /* ========== PROJECTS ========== */
+  .projects-list { display: grid; gap: 1rem; }
+
+  .project-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--green);
+    padding: 1.5rem;
+    border-radius: 0 4px 4px 0;
+    transition: background 0.2s;
+  }
+
+  .project-card:hover { background: var(--bg3); }
+
+  .project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .project-name {
+    font-family: var(--sans);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .project-badges { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+  .badge {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 2px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .badge-green { background: var(--green-dim); color: var(--green); border: 1px solid var(--border2); }
+  .badge-amber { background: rgba(255,170,51,0.1); color: var(--amber); border: 1px solid rgba(255,170,51,0.2); }
+  .badge-blue { background: rgba(51,170,255,0.1); color: var(--blue); border: 1px solid rgba(51,170,255,0.2); }
+  .badge-red { background: rgba(255,68,102,0.1); color: var(--red); border: 1px solid rgba(255,68,102,0.2); }
+
+  .project-desc {
+    color: var(--muted2);
+    font-size: 12px;
+    line-height: 1.8;
+  }
+
+  .project-tech {
+    margin-top: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .tech-pill {
+    font-size: 10px;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ========== CERTS / EDUCATION ========== */
+  .timeline { position: relative; padding-left: 1.5rem; }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 8px; bottom: 0;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .timeline-item {
+    position: relative;
+    padding-bottom: 1.75rem;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -1.5rem;
+    top: 8px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 0 1px var(--green);
+  }
+
+  .timeline-date {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 0.25rem;
+  }
+
+  .timeline-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .timeline-sub {
+    font-size: 12px;
+    color: var(--muted2);
+    margin-top: 2px;
+  }
+
+  /* ========== CONTACT ========== */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .contact-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 1.25rem;
+    border-radius: 4px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.2s;
+    color: inherit;
+  }
+
+  .contact-card:hover {
+    border-color: var(--green);
+    background: var(--green-dim);
+  }
+
+  .contact-icon {
+    font-size: 20px;
+    color: var(--green);
+    min-width: 28px;
+    text-align: center;
+  }
+
+  .contact-label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2px;
+  }
+
+  .contact-value {
+    font-size: 12px;
+    color: var(--text);
+  }
+
+  /* ========== TERMINAL PROMPT ========== */
+  .terminal-block {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.25rem 1.5rem;
+    font-size: 12px;
+    color: var(--muted2);
+    margin-bottom: 2rem;
+  }
+
+  .prompt { color: var(--green); }
+  .cmd { color: var(--text); }
+  .output { color: var(--muted); }
+
+  /* ========== FOOTER ========== */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: var(--muted);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* ========== SCROLLBAR ========== */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+  /* ========== MOBILE ========== */
+  @media (max-width: 640px) {
+    nav ul { display: none; }
+    h1 { font-size: 44px; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">ss_<span>portfolio</span></div>
+  <ul>
+    <li><a href="#about">sobre</a></li>
+    <li><a href="#skills">skills</a></li>
+    <li><a href="#projects">projetos</a></li>
+    <li><a href="#education">formação</a></li>
+    <li><a href="#contact">contacto</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="status-bar">
+    <span class="dot"></span>
+    <span>disponível para estágio &amp; trabalho · Sintra, Portugal</span>
+  </div>
+
+  <div class="hero-label">Cybersecurity</div>
+
+  <h1>
+    <span class="name">Samuel Sousa</span>
+
+  </h1>
+
+  <p class="hero-desc">
+    Estudante de cibersegurança com foco em pentesting, análise de vulnerabilidades
+    e administração de sistemas. Construo e quebro coisas num lab caseiro
+    para perceber como funcionam por dentro.
+  </p>
+
+  <div class="hero-tags">
+    <span class="tag">Penetration Testing</span>
+    <span class="tag">Vulnerability Analysis</span>
+    <span class="tag">Linux</span>
+    <span class="tag">Network Security</span>
+    <span class="tag">Python</span>
+    <span class="tag">OSINT</span>
+  </div>
+
+  <div class="hero-links">
+    <a href="mailto:progs.s.sousa@gmail.com" class="btn btn-primary">Contactar</a>
+    <a href="https://github.com/progssousa" class="btn btn-ghost" target="_blank">GitHub ↗</a>
+    <a href="#projects" class="btn btn-ghost">Ver Projetos</a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2>Sobre</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="terminal-block">
+    <div><span class="prompt">akira@kali</span>:<span style="color:var(--blue)">~</span>$ <span class="cmd">whoami --verbose</span></div>
+    <div class="output" style="margin-top:8px; line-height:2">
+      name        : Samuel Sousa<br>
+      age         : 20<br>
+      location    : Sintra, Portugal<br>
+      studying    : IEFP Cibersegurança<br>
+      os          : Windows | Pop!_OS (daily) | Kali Linux (lab)<br>
+      github      : github.com/progssousa<br>
+      status      : open to internship &amp; junior roles
+    </div>
+  </div>
+
+  <p class="about-text">
+    Tenho 20 anos e estou a construir a minha carreira em cibersegurança de forma
+    deliberada — com cursos como IEFP, mas principalmente através da
+    prática no meu home lab. Trabalho com Kali Linux em VirtualBox, faço testes numa
+    rede controlada com ferramentas como Metasploit, Aircrack-ng, e
+    desenvolvo projetos próprios em Python automatizam tarefas de segurança.
+    Procuro um estágio ou posição júnior onde possa contribuir enquanto continuo a
+    crescer junto de profissionais experientes.
+  </p>
+
+  <div class="about-grid" style="margin-top:1.5rem;">
+    <div class="info-card">
+      <div class="label">Área de interesse</div>
+      <div class="value">Pentesting · Vuln. Analysis · Blue/Red Team</div>
+    </div>
+    <div class="info-card">
+      <div class="label">Localização</div>
+      <div class="value">Sinta, Lisboa (disponível presencialmente)</div>
+    </div>
+    <div class="info-card">
+      <div class="label">Línguas</div>
+      <div class="value">Português (nativo) · Inglês (básico)</div>
+    </div>
+    <div class="info-card">
+      <div class="label">Disponibilidade</div>
+      <div class="value">2026 · Estágio ou Júnior</div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2>Skills &amp; Ferramentas</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="skills-grid">
+
+    <!-- Offensive Security -->
+    <div class="skill-category">
+      <div class="skill-cat-title">Offensive Security</div>
+      <ul class="skill-list">
+        <li class="skill-item">
+          <span class="skill-name">Nmap / Port Scanning</span>
+          <span class="skill-level level-advanced">Avançado</span>
+        </li>
+        <li class="skill-item">
+          <span class="skill-name">Metasploit Framework</span>
+          <span class="skill-level level-medium">Médio</span>
+        </li>
+        <li class="skill-item">
+          <span class="skill-name">SQL Injection</span>
+          <span class="skill-level level-medium">Médio</span>
+        </li>
+        <li class="skill-item">
+          <span class="skill-name">Aircrack-ng / Wifite</span>
+          <span class="skill-level level-medium">Médio</span>
+        </li>
+        <li class="skill-item">
+          <span class="skill-name">GoPhish (Phishing)</span>
+          <span class="skill-level level-medium">Médio</span>
+        </li>
+        <li class="skill-item">
+          <span class="skill-name">msfvenom / Payloads</span>
+          <span class="skill-level level-basic">Básico</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Analysis & Defense -->
+    <div class="skill-category">
+      <div class="skill-cat-title">Analysis &amp; Defense</div>
+      <ul class="skill-list">
+        <li class="skill-item">
+          <span class="skill-name">Tenable Nessus</span>
+          <span class="skill-level level-medium">Médio</span>
+        </li>
+        <li class="skill-item">
+          <span class="skill-name">Wireshark</span>
+          <span class="skill-level level-medium">Médio</span>
+        </li>
+        <li class="skill-item">
+          <span class="skill-name">Web Vuln. Scanning</span>
+          <span class="skill-level level-advanced">Médio/Avançado</span>
+        </li>
+        <li class="skill-item">
+          <span class="skill-name">OSINT / nslookup</span>
+          <span class="skill-level level-medium">Médio</span>
+        </li>
+        <li class="skill-item">
+          <span class="skill-name">Criptografia (básica)</span>
+          <span class="skill-level level-basic">Básico</span>
+        </li>
+
+      </ul>
+    </div>
+
+    <!-- Programming -->
+    <div class="skill-category">
+      <div class="skill-cat-title">Programming</div>
+      <ul class="skill-list">
+        <li class="skill-item">
+          <span class="skill-name">Python</span>
+          <span class="skill-level level-medium">Médio</span>
+        </li>
+        <li class="skill-item">
+          <span class="skill-name">C</span>
+          <span class="skill-level level-basic">Básico</span>
+        </li>
+        <li class="skill-item">
+          <span class="skill-name">HTML / CSS</span>
+          <span class="skill-level level-basic">Básico</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Systems & Infra -->
+    <div class="skill-category">
+      <div class="skill-cat-title">Systems &amp; Infra</div>
+      <ul class="skill-list">
+        <li class="skill-item">
+          <span class="skill-name">Linux (Pop!_OS / Kali)</span>
+          <span class="skill-level level-advanced">Avançado</span>
+        </li>
+        <li class="skill-item">
+          <span class="skill-name">VirtualBox / VMs</span>
+          <span class="skill-level level-advanced">Básico/Avançado</span>
+        </li>
+        <li class="skill-item">
+          <span class="skill-name">Hardware de Computadores</span>
+          <span class="skill-level level-advanced">Básico/Avançado</span>
+        </li>
+        <li class="skill-item">
+          <span class="skill-name">Redes (montagem / config.)</span>
+          <span class="skill-level level-basic">Básico</span>
+        </li>
+        <li class="skill-item">
+          <span class="skill-name">Cisco Networking</span>
+          <span class="skill-level level-basic">Básico</span>
+        </li>
+        <li class="skill-item">
+          <span class="skill-name">fstab / Disk Management</span>
+          <span class="skill-level level-medium">Médio</span>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2>Projetos</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="projects-list">
+
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-name">Home Pentest Lab</div>
+        <div class="project-badges">
+          <span class="badge badge-green">Pessoal</span>
+          <span class="badge badge-red">Offensive</span>
+        </div>
+      </div>
+      <p class="project-desc">
+        Ambiente de testes montado em casa com Kali Linux em VirtualBox sobre Pop!_OS.
+        Inclui prática de Wi-Fi security (WPA2 handshake capture), MITM attacks com
+        Bettercap, port scanning e exploitation com Metasploit — tudo em rede controlada
+        e isolada. Ponto de aprendizagem contínua em ofensiva.
+      </p>
+      <div class="project-tech">
+        <span class="tech-pill">Kali Linux</span>
+        <span class="tech-pill">VirtualBox</span>
+        <span class="tech-pill">Metasploit</span>
+        <span class="tech-pill">Aircrack-ng</span>
+        <span class="tech-pill">Wireshark</span>
+      </div>
+    </div>
+
+
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-name">Hotel TechWave — Network Infrastructure</div>
+        <div class="project-badges">
+          <span class="badge badge-amber">Académico</span>
+          <span class="badge badge-blue">Networking</span>
+        </div>
+      </div>
+      <p class="project-desc">
+        Projeto de grupo: design completo da infraestrutura de rede para um hotel fictício.
+        Inclui segmentação por VLANs, planeamento de endereçamento IP, definição de
+        políticas de segurança, e seleção de hardware. Apresentação técnica com script
+        e previsão de questões de avaliação.
+      </p>
+      <div class="project-tech">
+        <span class="tech-pill">Cisco</span>
+        <span class="tech-pill">VLANs</span>
+        <span class="tech-pill">Subnetting</span>
+        <span class="tech-pill">Network Design</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-name">SSTP Protocol — Apresentação Técnica</div>
+        <div class="project-badges">
+          <span class="badge badge-amber">Académico</span>
+          <span class="badge badge-green">VPN</span>
+        </div>
+      </div>
+      <p class="project-desc">
+        Apresentação aprofundada sobre Secure Socket Tunneling Protocol (SSTP):
+        arquitetura, encapsulamento, handshake TLS, comparação com outros protocolos VPN
+        (L2TP, OpenVPN, WireGuard) e casos de uso em ambientes enterprise.
+        Inclui PowerPoint técnico e script de apresentação oral.
+      </p>
+      <div class="project-tech">
+        <span class="tech-pill">SSTP</span>
+        <span class="tech-pill">VPN</span>
+        <span class="tech-pill">TLS</span>
+        <span class="tech-pill">Network Protocols</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-name">Ferramentas Python para Segurança</div>
+        <div class="project-badges">
+          <span class="badge badge-blue">Python</span>
+          <span class="badge badge-green">Pessoal</span>
+        </div>
+      </div>
+      <p class="project-desc">
+        Conjunto de scripts desenvolvidos durante o curso: sistema de encriptação/desencriptação
+        de ficheiros com Fernet (criptografia simétrica), ferramenta de pesquisa em logs do
+        Windows Event Viewer, sistema de gestão de tickets, e gestor de listas com ficheiros.
+        Foco em automatização de tarefas de segurança e análise de logs.
+      </p>
+      <div class="project-tech">
+        <span class="tech-pill">Python</span>
+        <span class="tech-pill">Fernet / cryptography</span>
+        <span class="tech-pill">Log Analysis</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-name">Programação em C — Módulos Académicos</div>
+        <div class="project-badges">
+          <span class="badge badge-amber">Académico</span>
+          <span class="badge badge-blue">C</span>
+        </div>
+      </div>
+      <p class="project-desc">
+        Série de programas em C desenvolvidos para o curso IEFP: calculadora modular
+        (Atividade 11), manipulação de arrays, estruturas condicionais, loops e funções.
+        Base sólida para compreender vulnerabilidades a nível de memória (buffer overflow,
+        ponteiros) relevantes em security research.
+      </p>
+      <div class="project-tech">
+        <span class="tech-pill">C</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EDUCATION & CERTS -->
+<section id="education">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2>Formação &amp; Certificados</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="timeline-date">2026 — Presente</div>
+      <div class="timeline-title">Curso de Cibersegurança — IEFP</div>
+      <div class="timeline-sub">Formação profissional presencial · Seg–Sex 08:00–14:30</div>
+    </div>
+    
+    <div class="timeline-item">
+      <div class="timeline-date">2026</div>
+      <div class="timeline-title">SOLYD </div>
+      <div class="timeline-sub">Introduçao ao HAcking e Pentest </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">2025</div>
+      <div class="timeline-title">Cisco Networking Essentials</div>
+      <div class="timeline-sub">Fundamentos de redes, protocolos e infraestrutura</div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">2025</div>
+      <div class="timeline-title">Fundação Bradesco</div>
+      <div class="timeline-sub">Segurança em Tecnologia da informação</div>
+    </div>
+    
+    <div class="timeline-item">
+      <div class="timeline-date">2025</div>
+      <div class="timeline-title">Academy</div>
+      <div class="timeline-sub">Introduction on Cybersecurity</div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">2025</div>
+      <div class="timeline-title">Ensino Secundário Concluído</div>
+      <div class="timeline-sub">Inclui Matemática A e Português — Exames Nacionais (PIEPE)</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="padding-bottom:5rem;">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <h2>Contacto</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <p style="color:var(--muted2); font-size:13px; margin-bottom:1.75rem; max-width:480px;">
+    Disponível para estágio ou posição júnior na área de cibersegurança.
+    Respondo em menos de 24 horas.
+  </p>
+
+  <div class="contact-grid">
+    <a href="mailto:progs.s.sousa@gmail.com" class="contact-card">
+      <div class="contact-icon">✉</div>
+      <div>
+        <div class="contact-label">Email-Profissional</div>
+        <div class="contact-value">progs.s.sousa@gmail.com</div>
+      </div>
+    </a>
+    <a href="https://github.com/progssousa" class="contact-card" target="_blank">
+      <div class="contact-icon">◈</div>
+      <div>
+        <div class="contact-label">GitHub</div>
+        <div class="contact-value">github.com/progssousa</div>
+      </div>
+    </a>
+    <a href="https://www.linkedin.com/in/samuel-sousa-6a911727b/" class="contact-card" target="_blank">
+      <div class="contact-icon">◉</div>
+      <div>
+        <div class="contact-label">Linkedin</div>
+        <div class="contact-value">Samuel Sousa</div>
+      </div>
+    </a>
+    <div class="contact-card" style="cursor:default;">
+      <div class="contact-icon" style="color:var(--amber);">⊙</div>
+      <div>
+        <div class="contact-label">Localização</div>
+        <div class="contact-value">Sintra, Lisboa, Portugal</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>Samuel Sousa &mdash; 2026</span>
+  <span style="color:var(--green);">~/cybersecurity</span>
+</footer>
+
+</body>
+</html>
